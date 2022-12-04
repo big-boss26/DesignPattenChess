@@ -246,50 +246,6 @@ public class weiqi extends ChessBoard{
         return false;
     }
 
-    /*
-    private int findQi(int x, int y, int[][] record, String piece) {
-
-        if (x < 0 || x >= line_num || y < 0 || y >= line_num || record[x][y] == 1) {
-            return 0;
-        }
-
-        if (chess[x][y].equals("null") || chess[x][y].equals ((piece == "white"?"black":"white"))) {
-            return 0;
-        }
-
-        // 记录
-        record[x][y] = 1;
-
-        // 获取气数量
-        int qi = get_piece_Qi(x, y);
-        ;
-        return qi + findQi(x - 1, y, record, piece) + findQi(x + 1, y, record, piece) + findQi(x, y - 1, record, piece) + findQi(x, y + 1, record, piece);
-    }
-
-
-    /**
-     * 获取单个棋子周围的气
-     */
-    /*
-    private int get_piece_Qi(int x, int y) {
-        int qi = 0;
-
-        if (x - 1 >= 0 && y >= 0 && chess[x - 1][y].equals("null")) {
-            qi++;
-        }
-        if (x + 1 >= 0 &&x+1< line_num&& y >= 0 && chess[x + 1][y].equals("null")) {
-            qi++;
-        }
-        if (x >= 0 && y - 1 >= 0 && chess[x][y - 1].equals("null")) {
-            qi++;
-        }
-        if (x >= 0 && y + 1 >= 0 &&y+1<line_num&& chess[x][y + 1].equals("null")) {
-            qi++;
-        }
-        return qi;
-    }
-
-    **/
     /**
      * 是否是劫
      * @param x 横坐标
@@ -376,7 +332,7 @@ public class weiqi extends ChessBoard{
     }
     public String checkWin(int x,int y)
     {
-        if(have_all_chess()||(this.black_pass==1&&this.white_pass==1)) {
+        if(haveAllChess()||(this.black_pass==1&&this.white_pass==1)) {
             HashSet<String> boarders = new HashSet<>();    //创建HashSet对象
 
             double komi = 7.5;

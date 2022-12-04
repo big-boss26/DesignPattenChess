@@ -50,7 +50,7 @@ public class ModeUI extends JFrame
     {
         this.setTitle("棋类游戏");
         int window_width = 537;
-        int window_height = 357;
+        int window_height = 380;
         this.setSize(window_width, window_height);
         int screen_width = Toolkit.getDefaultToolkit().getScreenSize().width;
         int screen_height = Toolkit.getDefaultToolkit().getScreenSize().height;

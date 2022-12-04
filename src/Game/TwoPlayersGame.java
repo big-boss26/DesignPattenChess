@@ -25,14 +25,10 @@ public class TwoPlayersGame extends JPanel implements MouseListener
     int grid;
 
     String chess_type;
-    int regret_chance;
-
     BufferedImage bi = new BufferedImage(1000, 800, BufferedImage.TYPE_INT_ARGB);
     Graphics g2 = bi.createGraphics();
 
-
-
-    ChessBoard chessBoard;
+    private  ChessBoard chessBoard;
 
     public TwoPlayersGame(int line_num,int grid,String chess_type)
     {
@@ -44,7 +40,6 @@ public class TwoPlayersGame extends JPanel implements MouseListener
             this.chessBoard=new wuziqi(line_num);
         }
 
-       // this.chessBoard.chessboard_size=chessboard_size;
 
         this.grid=grid;
 
@@ -56,17 +51,13 @@ public class TwoPlayersGame extends JPanel implements MouseListener
         whiteChessImg = chessFactory.getChess("白棋").getChess();
         selectedBlackChessImg = chessFactory.getChess("选中黑棋").getChess();
         selectedWhiteChessImg = chessFactory.getChess("选中白棋").getChess();
-//        selectImg = selectIcon.getImage();
 
         this.addMouseListener(this);
         this.chessBoard.saveMemento();
 
     }
 
-//    public void setSelect(int i, int j, boolean flag)
-//    {
-//        select[i][j] = flag;
-//    }
+
 
     public void paint(Graphics g)
     {

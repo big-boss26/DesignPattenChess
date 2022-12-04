@@ -15,7 +15,6 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 public class ControlPanel extends JPanel
 {
-    JLabel avatar = new JLabel("", JLabel.CENTER);
 
     JLabel gameInfo = new JLabel("游戏模式:", JLabel.CENTER);
     JButton startGame = new JButton("开始新游戏");
@@ -28,8 +27,8 @@ public class ControlPanel extends JPanel
 
     Frame f = new Frame("测试窗口");
 
-    FileDialog d1 = new FileDialog(f, "选择需要加载的文件", FileDialog.LOAD);
-    FileDialog d2 = new FileDialog(f, "选择需要保存的文件", FileDialog.SAVE);
+    FileDialog load_fd = new FileDialog(f, "选择需要加载的文件", FileDialog.LOAD);
+    FileDialog save_fd = new FileDialog(f, "选择需要保存的文件", FileDialog.SAVE);
 
 
     JButton exit = new JButton("返回主页");
@@ -49,11 +48,11 @@ public class ControlPanel extends JPanel
         saveGame.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                d2.setVisible(true);
+                save_fd.setVisible(true);
                 //打印用户选择的文件路径和名称
 
-                String directory = d2.getDirectory();
-                String file = d2.getFile();
+                String directory = save_fd.getDirectory();
+                String file = save_fd.getFile();
                 try {
                     ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(directory+file));
                     // 按照题目要求储存
@@ -69,9 +68,9 @@ public class ControlPanel extends JPanel
         restoreGame.addActionListener(new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                d1.setVisible(true);
-                String directory = d1.getDirectory();
-                String file = d1.getFile();
+                load_fd.setVisible(true);
+                String directory = load_fd.getDirectory();
+                String file = load_fd.getFile();
                 try {
                     ObjectInputStream  input = new ObjectInputStream(new FileInputStream(directory+file));
                     // 按照题目要求储存
@@ -96,7 +95,6 @@ public class ControlPanel extends JPanel
                         JOptionPane.showMessageDialog(chessboardPanel, "白方获胜，游戏结束!");
                         chessboardPanel.setCanPlay(false);
                     } else if (!(chessboardPanel.get_ChessBoard().getIsBlack())) {
-
                         JOptionPane.showMessageDialog(chessboardPanel, "黑方获胜，游戏结束!");
                         chessboardPanel.setCanPlay(false);
                     }
@@ -114,7 +112,6 @@ public class ControlPanel extends JPanel
         this.backPrevious(chessboardPanel);
         this.isExit();
 
-        this.add(avatar);
         this.add(startGame);
         this.add(stopGame);
         if(chessboardPanel.getChess_type().equals("围棋")){

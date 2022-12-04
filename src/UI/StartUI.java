@@ -17,7 +17,7 @@ public class StartUI extends JFrame
     JLabel boardInfo = new JLabel("棋盘大小:", JLabel.CENTER);
     JComboBox chooseBoardSize = new JComboBox();
     JButton exit=new JButton("退出游戏");
-    JLabel label=new JLabel("欢迎来到五子棋游戏");
+    JLabel label=new JLabel("欢迎来到棋类游戏");
     int line_num=0;
     String chess_type;
     public StartUI() throws HeadlessException

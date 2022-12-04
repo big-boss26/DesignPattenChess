@@ -129,7 +129,7 @@ public abstract  class ChessBoard {
         }
         return false;
     }
-    public boolean have_all_chess()
+    public boolean haveAllChess()
     {
         int cnt=0;
         for (int i = 0; i < this.line_num; i++)

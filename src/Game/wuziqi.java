@@ -67,16 +67,21 @@ public class wuziqi extends ChessBoard{
         {
             flag = true;
         }
-        if(flag) {
-            this.canPlay=false;
-            if (color.equals("black")) {
-                return "黑方获胜，游戏结束!";
+        if(!haveAllChess()) {
+            if (flag) {
+                this.canPlay = false;
+                if (color.equals("black")) {
+                    return "黑方获胜，游戏结束!";
+                } else {
+                    return "白方获胜，游戏结束!";
+                }
             } else {
-                return "白方获胜，游戏结束!";
+                return "胜负未分";
             }
         }else {
-            return "胜负未分";
+            return "平局，游戏结束!";
         }
+
     }
 
     public String get_down(int x,  int y){
