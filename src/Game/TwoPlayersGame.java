@@ -311,19 +311,11 @@ public class TwoPlayersGame extends JPanel implements MouseListener
 
 
 
-    public ChessBoard get_ChessBoard(){
+    public ChessBoard getChessBoard(){
         return  this.chessBoard;
     }
 
-    public void setCanPlay(boolean canPlay)
-    {
-        this.chessBoard.canPlay = canPlay;
-    }
 
-    public String[][] getChess()
-    {
-        return this.chessBoard.chess;
-    }
 
     /*
     public GamePlayer[] getTwoplays(){

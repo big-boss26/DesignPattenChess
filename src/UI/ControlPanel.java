@@ -62,7 +62,7 @@ public class ControlPanel extends JPanel
                 try {
                     ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(directory+file));
                     // 按照题目要求储存
-                    output.writeObject(chessboardPanel.get_ChessBoard().saveMemento());
+                    output.writeObject(chessboardPanel.getChessBoard().saveMemento());
 
                     output.close();
                 } catch (IOException e1) {
@@ -85,7 +85,7 @@ public class ControlPanel extends JPanel
                      Object memento=input.readObject();
                      //chessboardPanel.get_ChessBoard().setChessInfo((ArrayList)_chessInfo);
                     if(memento!=null) {
-                        JOptionPane.showMessageDialog(chessboardPanel, chessboardPanel.get_ChessBoard().loadMemento((Memento) memento));
+                        JOptionPane.showMessageDialog(chessboardPanel, chessboardPanel.getChessBoard().loadMemento((Memento) memento));
                         chessboardPanel.repaint();
                     }
 
@@ -103,23 +103,23 @@ public class ControlPanel extends JPanel
         stopGame.addActionListener(new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(chessboardPanel.get_ChessBoard().getCanPlay()) {
-                    if (chessboardPanel.get_ChessBoard().getIsBlack()){
+                if(chessboardPanel.getChessBoard().getCanPlay()) {
+                    if (chessboardPanel.getChessBoard().getIsBlack()){
 
                         JOptionPane.showMessageDialog(chessboardPanel, "白方获胜，游戏结束!");
 
-                        chessboardPanel.get_ChessBoard().getTwoplayers()[1].setWinTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[1].getWinTimes()+1);
+                        chessboardPanel.getChessBoard().getTwoplayers()[1].setWinTimes(chessboardPanel.getChessBoard().getTwoplayers()[1].getWinTimes()+1);
 
-                        chessboardPanel.setCanPlay(false);
-                    } else if (!(chessboardPanel.get_ChessBoard().getIsBlack())) {
+                        chessboardPanel.getChessBoard().setCanPlay(false);
+                    } else if (!(chessboardPanel.getChessBoard().getIsBlack())) {
                         JOptionPane.showMessageDialog(chessboardPanel, "黑方获胜，游戏结束!");
-                        chessboardPanel.get_ChessBoard().getTwoplayers()[0].setWinTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[0].getWinTimes()+1);
-                        chessboardPanel.setCanPlay(false);
+                        chessboardPanel.getChessBoard().getTwoplayers()[0].setWinTimes(chessboardPanel.getChessBoard().getTwoplayers()[0].getWinTimes()+1);
+                        chessboardPanel.getChessBoard().setCanPlay(false);
                     }
-                    chessboardPanel.get_ChessBoard().getTwoplayers()[0].setPlayTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[0].getPlayTimes()+1);
-                    chessboardPanel.get_ChessBoard().getTwoplayers()[1].setPlayTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[1].getPlayTimes()+1);
-                    chessboardPanel.get_ChessBoard().getTwoplayers()[0].savePlayerData();
-                    chessboardPanel.get_ChessBoard().getTwoplayers()[1].savePlayerData();
+                    chessboardPanel.getChessBoard().getTwoplayers()[0].setPlayTimes(chessboardPanel.getChessBoard().getTwoplayers()[0].getPlayTimes()+1);
+                    chessboardPanel.getChessBoard().getTwoplayers()[1].setPlayTimes(chessboardPanel.getChessBoard().getTwoplayers()[1].getPlayTimes()+1);
+                    chessboardPanel.getChessBoard().getTwoplayers()[0].savePlayerData();
+                    chessboardPanel.getChessBoard().getTwoplayers()[1].savePlayerData();
                 }
                 else {
                     JOptionPane.showMessageDialog(chessboardPanel, "请点击开始新游戏");
@@ -140,12 +140,12 @@ public class ControlPanel extends JPanel
                     if(memento!=null) {
 
                         //chessboardPanel.get_ChessBoard().setChessInfo((ArrayList)_chessInfo);
-                        JOptionPane.showMessageDialog(chessboardPanel, chessboardPanel.get_ChessBoard().loadMemento((Memento) memento));
+                        JOptionPane.showMessageDialog(chessboardPanel, chessboardPanel.getChessBoard().loadMemento((Memento) memento));
                         new Thread(new Runnable() {
                             public void run() {
                                 for (int i = 0; i < ((Memento) memento).getChessInfo().size(); i++) {
                                     chessboardPanel.repaint();
-                                    chessboardPanel.get_ChessBoard().loadMemento((Memento) ((Memento) memento).getChessInfo().get(i));
+                                    chessboardPanel.getChessBoard().loadMemento((Memento) ((Memento) memento).getChessInfo().get(i));
                                     try {
                                         Thread.sleep(1000);//帧率
                                     } catch (InterruptedException e) {
@@ -155,7 +155,7 @@ public class ControlPanel extends JPanel
                                 }
                             }
                         }).start();
-                        chessboardPanel.get_ChessBoard().loadMemento((Memento) memento);
+                        chessboardPanel.getChessBoard().loadMemento((Memento) memento);
                         chessboardPanel.repaint();
                     }
 
@@ -178,28 +178,28 @@ public class ControlPanel extends JPanel
 
         this.add(startGame);
         this.add(stopGame);
-        if(chessboardPanel.get_ChessBoard().getChessType().equals("围棋")){
+        if(chessboardPanel.getChessBoard().getChessType().equals("围棋")){
             pass_weiqi.addActionListener(new AbstractAction(){
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(chessboardPanel, chessboardPanel.get_ChessBoard().pass());
-                    String winRes=chessboardPanel.get_ChessBoard().checkWin(0, 0);
+                    JOptionPane.showMessageDialog(chessboardPanel, chessboardPanel.getChessBoard().pass());
+                    String winRes=chessboardPanel.getChessBoard().checkWin(0, 0);
                     switch (winRes){
                         case "黑方获胜，游戏结束!":
-                            chessboardPanel.get_ChessBoard().getTwoplayers()[0].setWinTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[0].getWinTimes()+1);
+                            chessboardPanel.getChessBoard().getTwoplayers()[0].setWinTimes(chessboardPanel.getChessBoard().getTwoplayers()[0].getWinTimes()+1);
 
                             break;
                         case"白方获胜，游戏结束!":
-                            chessboardPanel.get_ChessBoard().getTwoplayers()[1].setWinTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[1].getWinTimes()+1);
+                            chessboardPanel.getChessBoard().getTwoplayers()[1].setWinTimes(chessboardPanel.getChessBoard().getTwoplayers()[1].getWinTimes()+1);
                             break;
                         default:
                             break;
                     }
                     if (!winRes.equals("胜负未分")) {
-                        chessboardPanel.get_ChessBoard().getTwoplayers()[0].setPlayTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[0].getPlayTimes()+1);
-                        chessboardPanel.get_ChessBoard().getTwoplayers()[1].setPlayTimes(chessboardPanel.get_ChessBoard().getTwoplayers()[1].getPlayTimes()+1);
-                        chessboardPanel.get_ChessBoard().getTwoplayers()[0].savePlayerData();
-                        chessboardPanel.get_ChessBoard().getTwoplayers()[1].savePlayerData();
+                        chessboardPanel.getChessBoard().getTwoplayers()[0].setPlayTimes(chessboardPanel.getChessBoard().getTwoplayers()[0].getPlayTimes()+1);
+                        chessboardPanel.getChessBoard().getTwoplayers()[1].setPlayTimes(chessboardPanel.getChessBoard().getTwoplayers()[1].getPlayTimes()+1);
+                        chessboardPanel.getChessBoard().getTwoplayers()[0].savePlayerData();
+                        chessboardPanel.getChessBoard().getTwoplayers()[1].savePlayerData();
                         JOptionPane.showMessageDialog(chessboardPanel, winRes);
                     }
                 }
@@ -241,10 +241,10 @@ public class ControlPanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                _chessboardPanel.setCanPlay(true);
-                _chessboardPanel.get_ChessBoard().clearChessBoard();
-                _chessboardPanel.get_ChessBoard().getChessInfo().clear();
-                _chessboardPanel.get_ChessBoard().saveMemento();
+                _chessboardPanel.getChessBoard().setCanPlay(true);
+                _chessboardPanel.getChessBoard().clearChessBoard();
+                _chessboardPanel.getChessBoard().getChessInfo().clear();
+                _chessboardPanel.getChessBoard().saveMemento();
                 _chessboardPanel.repaint();
                 JOptionPane.showMessageDialog(ControlPanel.this, "游戏已开始");
             }
@@ -264,7 +264,7 @@ public class ControlPanel extends JPanel
 
                 System.out.println("开始悔棋");
                 //_chessboardPanel.get_ChessBoard().restoreMemento();
-                JOptionPane.showMessageDialog(_chessboardPanel, _chessboardPanel.get_ChessBoard().restoreMemento());
+                JOptionPane.showMessageDialog(_chessboardPanel, _chessboardPanel.getChessBoard().restoreMemento());
                 _chessboardPanel.repaint();
 
             }
