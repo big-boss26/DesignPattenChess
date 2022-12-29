@@ -3,9 +3,9 @@ import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.ArrayList;
 public class weiqi extends ChessBoard{
-    public  weiqi(int chessboard_size)
+    public  weiqi(int _chessboard_size,String _chess_type)
     {
-        super(chessboard_size);
+        super(_chessboard_size,_chess_type);
     }
 
     /**
@@ -31,7 +31,7 @@ public class weiqi extends ChessBoard{
     }
 
 
-    public String get_down(int x,  int y){
+    public String getDown(int x,  int y){
         // 不能下有子的位置
         if (!chess[x][y].equals("null")) {
             return "已经有子";
@@ -393,7 +393,7 @@ public class weiqi extends ChessBoard{
     }
     public  String pass(){
         if(canPlay) {
-            this.setRegretChance();
+            this.setRegretChance(  );
 
             if (isBlack){
                 if(this.white_pass==0&&this.black_pass == 0) {

@@ -13,6 +13,7 @@ public class StartUI extends JFrame
 
     JButton game_wuziqi=new JButton("开始五子棋游戏");
     JButton game_weiqi=new JButton("开始围棋游戏");
+    JButton game_heibaiqi=new JButton("开始黑白棋游戏");
 
     JLabel boardInfo = new JLabel("棋盘大小:", JLabel.CENTER);
     JComboBox chooseBoardSize = new JComboBox();
@@ -27,24 +28,31 @@ public class StartUI extends JFrame
         JPanel panel=new ImagePanel();
         getContentPane().add(panel);
         panel.setLayout(null);
+        chooseBoardSize.addItem("--请选择--"); //向下拉列表中添加一项
+
         for(int i=8;i<20;i++)
             chooseBoardSize.addItem(i);
         label.setFont(new Font(label.getFont().getName(), label.getFont().getStyle(), 20));
         label.setBounds(175,90,300,45);
-        game_wuziqi.setBounds(50,150,200,25);
-        game_weiqi.setBounds(300,150,200,25);
+        game_wuziqi.setBounds(50,150,130,25);
+        game_weiqi.setBounds(200,150,130,25);
+        game_heibaiqi.setBounds(350,150,130,25);
         boardInfo.setBounds(50,180,100,25);
         chooseBoardSize.setBounds(150,180,100,25);
 
-        exit.setBounds(300,180,200,25);
+        exit.setBounds(300,180,130,25);
 
         this.joinGame_wuziqi();
-        this.isExit();
+
         this.joinGame_weiqi();
+        this.joinGame_heibaiqi();
+        this.isExit();
         label=new JLabel("欢迎来到"+chess_type+"游戏");
         panel.add(label);
         panel.add(game_wuziqi);
         panel.add(game_weiqi);
+        panel.add(game_heibaiqi);
+
         panel.add(boardInfo);
         panel.add(chooseBoardSize);
         panel.add(exit);
@@ -126,6 +134,24 @@ public class StartUI extends JFrame
                     new ModeUI(line_num,chess_type);
                 }else {
                     JOptionPane.showMessageDialog(StartUI.this, "请选择棋盘大小!(仅支持9，13，19)");
+
+                }
+            }
+        });
+    }
+    private void joinGame_heibaiqi()
+    {
+        game_heibaiqi.addActionListener(new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                chess_type="黑白棋";
+                if(line_num==9) {
+                    StartUI.this.dispose();
+                    new ModeUI(line_num,chess_type);
+                }else {
+                    JOptionPane.showMessageDialog(StartUI.this, "请选择棋盘大小!(仅支持9条线，8个格)");
 
                 }
             }

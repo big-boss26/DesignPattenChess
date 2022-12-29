@@ -3,9 +3,9 @@ package Game;
 public class wuziqi extends ChessBoard{
 
 
-    public  wuziqi(int chessboard_size)
+    public  wuziqi(int chessboard_size,String _chess_type)
     {
-        super(chessboard_size);
+        super(chessboard_size, _chess_type);
     }
     public String checkWin(int x,int y)
     {
@@ -84,7 +84,7 @@ public class wuziqi extends ChessBoard{
 
     }
 
-    public String get_down(int x,  int y){
+    public String getDown(int x,  int y){
         // 不能下有子的位置
 
         if (!chess[x][y].equals("null")) {

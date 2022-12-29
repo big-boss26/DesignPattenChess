@@ -2,7 +2,7 @@ package UI;
 
 import Game.TwoPlayersGame;
 import Observer.Obs;
-
+import Game.GamePlayer;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class Game extends JFrame implements Obs
     int line_num;
     int grid;
     String chess_type;
-    public Game(int line_num, String chess_type) throws HeadlessException, IOException, InterruptedException
+    public Game(GamePlayer[] twoplayers, int line_num, String chess_type) throws HeadlessException, IOException, InterruptedException
     {
 
         this.line_num=line_num;
@@ -25,14 +25,12 @@ public class Game extends JFrame implements Obs
         this.setLayout(new BorderLayout());
 
 //        InfoPanel infoPanel = new InfoPanel();
-        TwoPlayersGame chessboardPanel = new TwoPlayersGame(line_num,grid,this.chess_type);
+        TwoPlayersGame chessboardPanel = new TwoPlayersGame(twoplayers,line_num,grid,this.chess_type);
         ControlPanel controlPanel = new ControlPanel(chessboardPanel);
 
         ControlPanel.BackHome.attach(this);
         this.add(chessboardPanel, BorderLayout.CENTER);
         this.add(controlPanel, BorderLayout.NORTH);
-
-
         this.setVisible(true);
     }
 

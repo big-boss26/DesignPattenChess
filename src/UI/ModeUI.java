@@ -1,5 +1,8 @@
 package UI;
 
+import User.LoginEventListener;
+import User.LoginValidator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,8 +12,6 @@ import java.io.IOException;
 public class ModeUI extends JFrame
 {
 
-    JButton game1=new JButton("开始单人游戏——人类先手");
-    JButton game2=new JButton("开始单人游戏——电脑先手");
     JButton game3=new JButton("开始双人游戏");
     JButton exit=new JButton("退出游戏");
     JLabel label;
@@ -30,8 +31,6 @@ public class ModeUI extends JFrame
 
         label.setFont(new Font(label.getFont().getName(), label.getFont().getStyle(), 20));
         label.setBounds(175,90,300,45);
-        game1.setBounds(50,250,200,25);
-        game2.setBounds(300,250,200,25);
         game3.setBounds(50,300,200,25);
         exit.setBounds(300,300,200,25);
 
@@ -39,8 +38,6 @@ public class ModeUI extends JFrame
         this.isExit();
 
         panel.add(label);
-        panel.add(game1);
-        panel.add(game2);
         panel.add(game3);
         panel.add(exit);
         this.setVisible(true);
@@ -83,17 +80,8 @@ public class ModeUI extends JFrame
             public void actionPerformed(ActionEvent e)
             {
                 ModeUI.this.dispose();
-                try
                 {
-                    new Game(line_num,chess_type);
-                }
-                catch (IOException ioException)
-                {
-                    ioException.printStackTrace();
-                }
-                catch (InterruptedException interruptedException)
-                {
-                    interruptedException.printStackTrace();
+                    new LoginValidator(line_num,chess_type);
                 }
             }
         });
