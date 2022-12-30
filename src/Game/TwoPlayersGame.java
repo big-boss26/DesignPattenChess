@@ -28,11 +28,9 @@ public class TwoPlayersGame extends JPanel implements MouseListener
     private  ChessBoard chessBoard;
     Timer blackPlayerHandlerTimer;
     Timer whitePlayerHandlerTimer;
+    Boolean awaitForClick = false;
     public TwoPlayersGame(GamePlayer[] twoplayers,int line_num,int grid,String chess_type)
     {
-       // super(chessboard_size);
-        //twoPlayers[0]=new GamePlayer("黑方");
-        //twoPlayers[1]=new GamePlayer("白方");
         if (chess_type.equals("围棋"))
             this.chessBoard=new weiqi(line_num,chess_type);
         else if (chess_type.equals("五子棋")) {
@@ -76,59 +74,60 @@ public class TwoPlayersGame extends JPanel implements MouseListener
         this.chessBoard.saveMemento();
 
     }
-    public void manageTurn(){
-        if(chessBoard.hasAnyMoves(chessBoard.chess,chessBoard.getTwoplayers()[0].getPieseType())||chessBoard.hasAnyMoves(chessBoard.chess,chessBoard.getTwoplayers()[1].getPieseType())) {
-            if (chessBoard.getIsBlack()) {
-                if(chessBoard.hasAnyMoves(chessBoard.chess,chessBoard.getTwoplayers()[0].getPieseType())) {
-                    if (chessBoard.getTwoplayers()[0].getUserType().equals("用户")||chessBoard.getTwoplayers()[0].getUserType().equals("游客")) {
-                        //awaitForClick = true;
-                        chessBoard.setCanPlay(true);
 
-                        //after click this function should be call backed
+
+
+    public void manageTurn(){
+        if(chessBoard.getCanPlay()) {
+
+            if (chessBoard.hasAnyMoves(chessBoard.chess, chessBoard.getTwoplayers()[0].getPieseType()) || chessBoard.hasAnyMoves(chessBoard.chess, chessBoard.getTwoplayers()[1].getPieseType())) {
+                if (chessBoard.getIsBlack()) {
+                    if (chessBoard.hasAnyMoves(chessBoard.chess, chessBoard.getTwoplayers()[0].getPieseType())) {
+                        if (chessBoard.getTwoplayers()[0].getUserType().equals("用户") || chessBoard.getTwoplayers()[0].getUserType().equals("游客")) {
+                            awaitForClick = true;
+                        } else {
+                            blackPlayerHandlerTimer.start();
+                        }
                     } else {
-                        blackPlayerHandlerTimer.start();
+                        chessBoard.setIsBlack(false);
+                        manageTurn();
                     }
-                }
-                else {
-                    chessBoard.setIsBlack(false);
-                    manageTurn();
+                } else {
+                    if (chessBoard.hasAnyMoves(chessBoard.chess, chessBoard.getTwoplayers()[1].getPieseType())) {
+                        if (chessBoard.getTwoplayers()[1].getUserType().equals("用户") || chessBoard.getTwoplayers()[1].getUserType().equals("游客")) {
+                            awaitForClick = true;
+                            //chessBoard.setCanPlay(true);
+                        } else {
+                            whitePlayerHandlerTimer.start();
+                        }
+                    } else {
+                        chessBoard.setIsBlack(true);
+                        manageTurn();
+                    }
                 }
             } else {
-                if(chessBoard.hasAnyMoves(chessBoard.chess,chessBoard.getTwoplayers()[1].getPieseType())) {
-                    if (chessBoard.getTwoplayers()[1].getUserType().equals("用户")||chessBoard.getTwoplayers()[1].getUserType().equals("游客")) {
-                        //awaitForClick = true;
-                        chessBoard.setCanPlay(true);
-                        //after click this function should be call backed
-                    } else {
-                        whitePlayerHandlerTimer.start();
-                    }
-                }else {
-                    chessBoard.setIsBlack(true);
-                    manageTurn();
+                //game finished
+                System.out.println("Game Finished !");
+
+                String winRes = this.chessBoard.checkWin(x, y);
+                switch (winRes) {
+                    case "黑方获胜，游戏结束!":
+                        chessBoard.getTwoplayers()[0].setWinTimes(chessBoard.getTwoplayers()[0].getWinTimes() + 1);
+
+                        break;
+                    case "白方获胜，游戏结束!":
+                        chessBoard.getTwoplayers()[1].setWinTimes(chessBoard.getTwoplayers()[1].getWinTimes() + 1);
+                        break;
+                    default:
+                        break;
                 }
-            }
-        }else{
-            //game finished
-            System.out.println("Game Finished !");
-
-            String winRes=this.chessBoard.checkWin(x, y);
-            switch (winRes){
-                case "黑方获胜，游戏结束!":
-                    chessBoard.getTwoplayers()[0].setWinTimes(chessBoard.getTwoplayers()[0].getWinTimes()+1);
-
-                    break;
-                case"白方获胜，游戏结束!":
-                    chessBoard.getTwoplayers()[1].setWinTimes(chessBoard.getTwoplayers()[1].getWinTimes()+1);
-                    break;
-                default:
-                    break;
-            }
-            if (!winRes.equals("胜负未分")) {
-                chessBoard.getTwoplayers()[0].setPlayTimes(chessBoard.getTwoplayers()[0].getPlayTimes()+1);
-                chessBoard.getTwoplayers()[1].setPlayTimes(chessBoard.getTwoplayers()[1].getPlayTimes()+1);
-                chessBoard.getTwoplayers()[0].savePlayerData();
-                chessBoard.getTwoplayers()[1].savePlayerData();
-                JOptionPane.showMessageDialog(this, winRes);
+                if (!winRes.equals("胜负未分")) {
+                    chessBoard.getTwoplayers()[0].setPlayTimes(chessBoard.getTwoplayers()[0].getPlayTimes() + 1);
+                    chessBoard.getTwoplayers()[1].setPlayTimes(chessBoard.getTwoplayers()[1].getPlayTimes() + 1);
+                    chessBoard.getTwoplayers()[0].savePlayerData();
+                    chessBoard.getTwoplayers()[1].savePlayerData();
+                    JOptionPane.showMessageDialog(this, winRes);
+                }
             }
         }
     }
@@ -215,7 +214,7 @@ public class TwoPlayersGame extends JPanel implements MouseListener
     }
 
     public void handleAI(GamePlayer ai){
-        if (this.chessBoard.canPlay) {
+        if (this.chessBoard.canPlay&&(!(ai.getUserType().equals("用户")||ai.getUserType().equals("游客")))) {
 
             Point aiPlayPoint = ai.play(chessBoard);
             int i = aiPlayPoint.x;
@@ -226,8 +225,6 @@ public class TwoPlayersGame extends JPanel implements MouseListener
             if(!result.equals("落子成功")){
                 JOptionPane.showMessageDialog(this, result);
             }
-            //advance turn
-            //chessBoard.isBlack = (chessBoard.isBlack == true) ? false : true;
 
             repaint();
         }
@@ -236,7 +233,7 @@ public class TwoPlayersGame extends JPanel implements MouseListener
     @Override
     public void mouseClicked(MouseEvent e)
     {
-        if (this.chessBoard.canPlay)
+        if (awaitForClick&&this.chessBoard.canPlay)
         {
             this.chessBoard.setRegretChance();
             x = e.getX();
@@ -246,8 +243,8 @@ public class TwoPlayersGame extends JPanel implements MouseListener
                 x = (int) Math.rint((x - 155) / this.grid);
                 y = (int) Math.rint((y - 20) /this.grid);
                 String result=this.chessBoard.getDown(x,y);
-                chessBoard.setCanPlay(false);
-
+                //chessBoard.setCanPlay(false);
+                awaitForClick=false;
                 if(!result.equals("落子成功")){
                     JOptionPane.showMessageDialog(this, result);
                 }
@@ -314,8 +311,12 @@ public class TwoPlayersGame extends JPanel implements MouseListener
     public ChessBoard getChessBoard(){
         return  this.chessBoard;
     }
-
-
+    public Timer getBlackPlayerHandlerTimer(){
+        return blackPlayerHandlerTimer;
+    }
+    public Timer getWhitePlayerHandlerTimer(){
+        return whitePlayerHandlerTimer;
+    }
 
     /*
     public GamePlayer[] getTwoplays(){

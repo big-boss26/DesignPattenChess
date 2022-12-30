@@ -6,7 +6,7 @@ import java.awt.*;
 import java.io.*;
 
 
-public  abstract  class GamePlayer {
+public  abstract  class GamePlayer implements Serializable{
 
     protected String userID;
     protected String userName;

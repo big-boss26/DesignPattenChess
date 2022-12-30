@@ -44,23 +44,19 @@ public class ControlPanel extends JPanel
     {
 
 
-
         gameInfo.setFont(new Font(gameInfo.getFont().getName(), gameInfo.getFont().getStyle(), 20));
-
-
-
         saveGame.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //打印用户选择的文件路径和名称
 
 
-                save_fd.setDirectory("./userManage");
+               // save_fd.setDirectory("./userManage");
                 save_fd.setVisible(true);
                 String directory = save_fd.getDirectory();
                 String file = save_fd.getFile();
                 try {
-                    ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(directory+file));
+                    ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(directory+file,false));
                     // 按照题目要求储存
                     output.writeObject(chessboardPanel.getChessBoard().saveMemento());
 
@@ -138,7 +134,7 @@ public class ControlPanel extends JPanel
                     // 按照题目要求储存
                     Object memento=input.readObject();
                     if(memento!=null) {
-
+                        Memento temp=chessboardPanel.getChessBoard().saveMemento();
                         //chessboardPanel.get_ChessBoard().setChessInfo((ArrayList)_chessInfo);
                         JOptionPane.showMessageDialog(chessboardPanel, chessboardPanel.getChessBoard().loadMemento((Memento) memento));
                         new Thread(new Runnable() {
@@ -155,7 +151,7 @@ public class ControlPanel extends JPanel
                                 }
                             }
                         }).start();
-                        chessboardPanel.getChessBoard().loadMemento((Memento) memento);
+                        chessboardPanel.getChessBoard().loadMemento((Memento) temp);
                         chessboardPanel.repaint();
                     }
 
@@ -242,9 +238,14 @@ public class ControlPanel extends JPanel
             public void actionPerformed(ActionEvent e)
             {
                 _chessboardPanel.getChessBoard().setCanPlay(true);
+                _chessboardPanel.getChessBoard().saveMemento();
                 _chessboardPanel.getChessBoard().clearChessBoard();
                 _chessboardPanel.getChessBoard().getChessInfo().clear();
-                _chessboardPanel.getChessBoard().saveMemento();
+                if(!(_chessboardPanel.getBlackPlayerHandlerTimer().isRunning()&&_chessboardPanel.getWhitePlayerHandlerTimer().isRunning())) {
+                    _chessboardPanel.getBlackPlayerHandlerTimer().start();
+                    _chessboardPanel.getWhitePlayerHandlerTimer().start();
+                }
+
                 _chessboardPanel.repaint();
                 JOptionPane.showMessageDialog(ControlPanel.this, "游戏已开始");
             }

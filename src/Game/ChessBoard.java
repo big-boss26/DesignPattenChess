@@ -86,11 +86,7 @@ public abstract  class ChessBoard {
 
     public String loadMemento(Memento memento) {
 
-
-        if(memento.getChess().length==this.chess[0].length&&
-                memento.getChessType().equals(this.chessType)&&
-                memento.getTwoPlayers()[0].getUserID().equals(this.twoPlayers[0].getUserID())&&
-                memento.getTwoPlayers()[1].getUserID().equals(this.twoPlayers[1].getUserID())) {
+        if(memento.getChess().length==this.chess[0].length&&memento.getChessType().equals(this.chessType)) {
             if (!canPlay) {
                 canPlay = true;
             }
@@ -101,6 +97,7 @@ public abstract  class ChessBoard {
             this.black_pass=memento.getBlack_pass();
             this.white_pass=memento.getWhite_pass();
             this.setChessInfo(memento.getChessInfo());
+            this.setTwoplayers(memento.getTwoPlayers());
             //this.repaint();
             return  "加载存档文件成功";
         }
@@ -293,6 +290,10 @@ public abstract  class ChessBoard {
                 chess[i][j] = "null";
             }
         }
+        isBlack=true;
+        white_pass=0;
+        black_pass=0;
+        regretChance = 0;
     }
 
 

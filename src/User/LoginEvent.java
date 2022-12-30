@@ -11,8 +11,6 @@ public class LoginEvent extends EventObject
     {
         super(source);
         this.twoPlayers=twoplayers.clone();
-        //this.twoPlayers[1]=twoplayers[1];
-        System.out.println("xxx");
     }
 
     public GamePlayer[] getTwoPlayers() {

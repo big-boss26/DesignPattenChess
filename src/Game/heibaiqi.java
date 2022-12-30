@@ -45,9 +45,7 @@ public class heibaiqi extends ChessBoard{
         }
 
     }
-    public boolean hasAnyMoves(String[][] board, String player){
-        return getAllPossibleMoves(board,player).size() > 0;
-    }
+
 
 
     public  ArrayList<Point> getAllPossibleMoves(String[][] board, String player){
